@@ -1,35 +1,28 @@
-# predictive-modeling-airbnb
-An end-to-end data science project analyzing the Inside Airbnb dataset. This project includes data cleaning, feature engineering, price prediction (regression), and Superhost status prediction (classification).
-
-📊 Predictive Modeling with Inside Airbnb
-
-An end-to-end data science project using the Inside Airbnb dataset to perform regression, classification, and advanced probability modeling. It covers data cleaning, feature engineering, exploratory analysis, model comparison, and identification of high-potential Superhosts.
-
 📝 Project Overview
 
-This project builds and evaluates machine learning models using the Inside Airbnb dataset for your selected country.
+This repository contains notebooks and scripts that build and evaluate machine learning models on the Inside Airbnb listings.csv for your chosen country/city.
 
 Goals
 
-Task 1 — Regression: Predict listing prices using features such as location, amenities, and property type.
+Task 1 — Regression: Predict listing price using features such as location, amenities, and property type.
 
 Task 2 — Classification: Predict whether a host becomes a Superhost.
 
-Task 3 — Advanced: Use XGBoost to generate probability scores and identify non-Superhosts with high potential.
+Task 3 — Advanced: Build an XGBoost probability model to identify non-Superhosts with high potential to become Superhosts.
 
 🛠 Tech Stack
 
-Core Libraries: Pandas, NumPy, Scikit-learn, Matplotlib, Seaborn
+Core: Pandas, NumPy, Scikit-learn, Matplotlib, Seaborn
 
-ML Models: XGBoost, Logistic Regression, Decision Tree, SVM
+Modeling: XGBoost, Logistic Regression, Decision Tree, SVM
 
-NLP: NLTK (VADER sentiment analysis)
+NLP: NLTK (VADER sentiment)
 
 Imbalanced Data: SMOTE, scale_pos_weight
 
 Explainability: SHAP
 
-Environment: Conda, Jupyter Notebook
+Env: Conda, Jupyter Notebooks
 
 📂 Project Structure
 airbnb-predictive-modeling/
@@ -38,7 +31,7 @@ airbnb-predictive-modeling/
 │   └── code.py                     # Runs advanced probability model (Task 5)
 │
 ├── data/
-│   ├── listings.csv                # Raw dataset (to be added by user)
+│   ├── listings.csv                # Raw dataset (add this file)
 │   └── listings_cleaned.csv        # Generated after preprocessing
 │
 ├── notebooks/
@@ -53,7 +46,7 @@ airbnb-predictive-modeling/
 │   ├── model_helpers.py            # Model training & evaluation functions
 │   └── preprocessing.py            # Data cleaning & feature engineering
 │
-├── visuals/                        # Plots from each notebook
+├── visuals/                        # Notebook output plots
 │   ├── 1/
 │   ├── 2/
 │   ├── 3/
@@ -62,65 +55,60 @@ airbnb-predictive-modeling/
 │
 ├── main.py                         # Runs Tasks 1–4
 ├── requirements.txt
-├── setup_structure.py
+├── setup_structure.py              # Builds folder structure
 └── README.md
 
 🚀 Setup & Installation
-1. Clone the Repository
+1. Clone repository
 git clone https://[your-repository-url]/airbnb-predictive-modeling.git
 cd airbnb-predictive-modeling
 
-2. Create the Conda Environment
-conda create -n airbnb_env python=3.10
+2. Create Conda environment
+conda create -n airbnb_env python=3.10 -y
 conda activate airbnb_env
 
-3. Install Dependencies
+3. Install dependencies
 pip install -r requirements.txt
 
-4. Add the Dataset
+4. Add data
 
-Download listings.csv for your country from the Inside Airbnb website and place it into:
+Download listings.csv for your country/city from Inside Airbnb and place it at:
 
 /data/listings.csv
 
-🏃 How to Run the Project
-1. Run Tasks 1–4 (Main Pipeline)
-
-This performs preprocessing, regression modeling, and classification modeling.
-
+🏃 How to run
+Run preprocessing, regression and classification (Tasks 1–4)
 python main.py
 
 
-This script will:
+What this does
 
-Load and clean listings.csv
+Loads data/listings.csv and runs the preprocessing pipeline.
 
-Create listings_cleaned.csv
+Saves cleaned features to data/listings_cleaned.csv.
 
-Train and compare 4 regression models
+Trains & compares 4 regression models.
 
-Train and compare 4 classification models (with SMOTE + tuning)
+Trains & compares 4 classification models (SMOTE + tuning).
 
-2. Run Advanced XGBoost Analysis (Task 5)
+Run the advanced XGBoost analysis (Task 5)
 python code/code.py
 
 
-This script will:
+What this does
 
-Load listings_cleaned.csv
+Loads data/listings_cleaned.csv.
 
-Fix the recurring 5E-1 string error in numeric columns
+Applies robust hotfix for a recurring 5E-1 string issue in numeric columns.
 
-Train + tune an advanced XGBoost probability model
+Trains and tunes an XGBoost probability model (uses scale_pos_weight).
 
-Compute high-confidence Superhost probabilities
-
-Identify non-Superhosts with >80% probability of becoming one
+Produces probability scores and lists non-Superhosts with >80% Superhost probability.
 
 🔬 Notebook-by-Notebook Summary
 001_data_preprocessing.ipynb
 
-Loaded 79 columns, removed 30+ irrelevant ones
+Loaded ~79 columns and dropped 30+ irrelevant ones.
 
 Engineered features:
 
@@ -130,13 +118,15 @@ amenities_count
 
 description_sentiment (VADER)
 
-Fixed the recurring 5E-1 string issue
+Handled outliers and missing values.
 
-Noted strong imbalance in host_is_superhost
+Fixed recurring 5E-1 string error in numeric columns.
+
+Noted strong imbalance in host_is_superhost.
 
 002_regression_model.ipynb
 
-Applied ColumnTransformer (scaling + OHE)
+Built ColumnTransformer (scaling + one-hot encoding).
 
 Trained and compared:
 
@@ -148,21 +138,17 @@ Lasso
 
 ElasticNet
 
-Best Model: Ridge Regression
+Best model: Ridge Regression
 
 R² ≈ 0.70
 
 RMSE ≈ $113
 
-L2 penalty handled multicollinearity well
-
 003_classification_model.ipynb
 
-Baseline Logistic Regression
+Baseline Logistic Regression.
 
-Used SMOTE to handle imbalance
-
-Stratified splitting
+Used SMOTE in an ImbPipeline, with stratified split.
 
 Result:
 
@@ -172,45 +158,44 @@ Precision: 54%
 
 004_model_comparison.ipynb
 
-Models Compared:
+Compared Decision Tree, SVM, Logistic Regression, GaussianNB (with GridSearchCV tuning).
 
-Decision Tree
-
-SVM
-
-Logistic Regression
-
-GaussianNB
-
-Used GridSearchCV for tuning.
-
-Best Model:
-✔ Tuned Decision Tree (F1 = 0.64)
-
-Worst Model:
-✘ GaussianNB (correlated features violate independence assumption)
+Best model: Tuned Decision Tree (F1 ≈ 0.64)
+Worst model: GaussianNB (assumption of feature independence violated)
 
 005_advanced_predictive_probability.ipynb
 
-Built advanced XGBoost probability model
+Tuned XGBoost probability model (used scale_pos_weight for imbalance).
 
-Used scale_pos_weight instead of SMOTE
+Performance:
 
-Achieved:
+F1 ≈ 0.75
 
-F1-Score: 0.75
+AUC ≈ 0.90
 
-AUC: 0.90
+Key insight: A group of non-Superhosts (often perfect review scores but low response rates) showed >80% probability of becoming Superhosts.
 
-Key Insight:
-Non-Superhosts with perfect review scores but low response rates have high Superhost potential (>80%).
-
-🛠 Key Techniques Used
+🛠 Key techniques
 Category	Techniques
 Preprocessing	ColumnTransformer, OneHotEncoder, StandardScaler, Pipelines
-Feature Engineering	Sentiment analysis, date parsing, outlier handling
-Regression Models	Linear, Ridge (L2), Lasso (L1), ElasticNet
-Classification Models	Logistic Regression, Decision Tree, SVM, GaussianNB, XGBoost
-Imbalanced Data	SMOTE, scale_pos_weight, stratified sampling
-Model Tuning	GridSearchCV
+Feature engineering	Sentiment analysis (VADER), date parsing, amenities count, outlier handling
+Regression models	Linear, Ridge (L2), Lasso (L1), ElasticNet
+Classification models	Logistic Regression, Decision Tree, SVM, GaussianNB, XGBoost
+Imbalance handling	SMOTE, scale_pos_weight, stratified sampling
+Model tuning	GridSearchCV
 Explainability	SHAP
+Outputs / Expected files
+
+data/listings_cleaned.csv — cleaned dataset produced by preprocessing.
+
+visuals/ — plots and figures saved per notebook.
+
+Notebook HTML/PNG exports (optional) for report sharing.
+
+Notes & tips
+
+If Markdown renders compacted: ensure you paste the file into README.md (root) and save. GitHub will render headings and code blocks automatically.
+
+For long lines that should wrap in .md, add blank lines between sections to create clear paragraph breaks.
+
+Use relative links for internal files (e.g., notebooks/001_data_preprocessing.ipynb) so links work across branches and clones.
